@@ -1,8 +1,16 @@
+# Task Manager Application
 
-Arhitectură: Două microservicii separate (Task API și Users API) pentru a gestiona entitățile cu relații.
+Aplicația **Task Manager** permite administrarea utilizatorilor și a task-urilor acestora printr-o interfață web de tip „sticky notes”. 
 
-Funcționalități: Operații CRUD complete (Create, Read, Update, Delete) expuse prin Controllere.
+## Funcționalități
+- Adăugare, modificare și ștergere utilizatori
+- Adăugare, modificare și ștergere task-uri
+- Vizualizare status task-uri (❌ ⏳ ✅) live fără reload
+- Arhitectură layered: Controllers, Services, DTOs, DbContext
+- Containerizare cu Docker Compose
 
-Date: Persistență asigurată de o bază de date (ex. SQLite) și folosireaData Transfer Objects (DTOs).
-
-Deployment: Aplicația este containerizată folosind Docker și orchestrată cu Docker Compose.
+## Tehnologii
+- ASP.NET Core MVC
+- Entity Framework Core
+- SQL Server
+- Docker & Docker Compose
