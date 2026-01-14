@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: taskmanager_db
+    environment:
+      SA_PASSWORD: "MyStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - dbdata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyStrong!Passw0rd -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      dockerfile: TaskManager/Dockerfile
+    container_name: taskmanager_web
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=taskmanager_db,1433;Database=TaskManagerDb;User Id=sa;Password=MyStrong!Passw0rd;TrustServerCertificate=True;"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  dbdata:
